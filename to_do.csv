@@ -1,0 +1,14 @@
+Authentication
+    Manager
+
+APIs
+    Mobile
+    - post a csv file
+    - get config 
+    Front
+    - get all csv
+    
+Database
+    Schema
+    CRUD
+    Serializer
