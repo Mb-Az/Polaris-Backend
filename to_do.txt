@@ -4,13 +4,14 @@ Authentication
 
 APIs
     Mobile
-    - post a csv file
-    - get config 
-    - provide a unique Id with hash
+    - get a csv file
+    - give config 
+    - provide a unique Id, jwt token
 
     Front
     - login 
     - get all csv
+    - post config
     
 Database
     Schema
