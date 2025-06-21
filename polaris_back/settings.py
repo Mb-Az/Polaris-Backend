@@ -14,7 +14,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1','polaris-back.liara.run']
 
 
 # Application definition
