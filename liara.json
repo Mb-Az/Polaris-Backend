@@ -4,5 +4,10 @@
   "build": {
     "location": "iran"
   },
-  "disks": []
+  "disks":[
+        {
+            "name": "database",
+            "mountTo": "database"
+        }
+    ]
 }
