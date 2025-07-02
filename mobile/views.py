@@ -22,12 +22,11 @@ class LoginView(APIView):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             mobile_id = serializer.validated_data['mobile_id']
-            device = MobileDevice.objects.filter(id=mobile_id)
-            if device is None:
-                return Response({'message':'You are not registered.'})
-
-            login(request, device) ###
-            refresh = RefreshToken.for_user(device) ###
+            device = MobileDevice.objects.select_related('user').filter(id=mobile_id).first()
+            if device is None or device.user.user_type != "device":
+                return Response({'message': 'You are not registered.'}, status=400)
+            
+            refresh = RefreshToken.for_user(device.user) ###
             access_token = refresh.access_token
             return Response(
                 {
@@ -41,7 +40,7 @@ class LoginView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class RegisterView(APIView):
     serializer_class = RegisterSerializer
-    permission_class = [AllowAny]
+    permission_classes = [AllowAny]
     def post(self,request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
@@ -49,8 +48,7 @@ class RegisterView(APIView):
                 return Response({'message':'You do not have the access.'})
             
             device = serializer.save()
-            login(request, device) ###
-            refresh = RefreshToken.for_user(device) ###
+            refresh = RefreshToken.for_user(device.user) ###
             access_token = refresh.access_token
             return Response(
                 {

@@ -1,11 +1,14 @@
 from django.db import models
 from decimal import Decimal
 from django.utils import timezone
+from user.models import CustomUser
 # Create your models here.
 class MobileDevice(models.Model):
-    id = models.CharField(max_length=10,unique=True,db_index=True)
+    id = models.CharField(max_length=10, unique=True, db_index=True)
     name = models.CharField(max_length=10)
     at = models.DateTimeField(default=timezone.now)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='device_profile')
+
 
 class Data(models.Model):
     mobile_id = models.ForeignKey(MobileDevice,related_name="mobileId_data",db_index=True)
