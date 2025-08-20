@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'rest_framework',
     "rest_framework_simplejwt",
     "drf_spectacular",
-    'user'
+    'user',
+    'data'
 ]
 
 MIDDLEWARE = [
@@ -49,6 +50,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     # "EXCEPTION_HANDLER": "config.utils.custom_exception_handler",
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
 }
 
 ROOT_URLCONF = 'polaris_back.urls'
