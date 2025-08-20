@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "drf_spectacular",
     'user',
-    'data'
+    'data',
+    'mobile_config'
 ]
 
 MIDDLEWARE = [
