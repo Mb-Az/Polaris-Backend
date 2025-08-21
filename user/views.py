@@ -24,7 +24,7 @@ class LoginView(APIView):
         
             user = authenticate(request, email=email, password=password)
             if user is None:
-                return Response({'message':'You are not registered.'})
+                return Response({'message':'You are not registered.'},status=status.HTTP_401_BAD_REQUEST)
 
             login(request, user)
             refresh = RefreshToken.for_user(user)
