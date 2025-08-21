@@ -101,15 +101,26 @@ class DataListView(APIView):
         ]
     )
     def get(self, request):
+        allowed_sort_fields_test = ['deviceId','time','throughput', 'ping', 'web', 'dns', 'sms','latitude','longitude']
+        sort_param_test= request.GET.get('sort')
+        if sort_param_test is None or sort_param_test.lstrip('-') not in allowed_sort_fields_test :
+            sort_param_test = '-time'
+
+        allowed_sort_fields_measure = ['deviceId','time', 'rsrp', 'rsrq','rx_lev','rscp','ec_no','plmn_id','tac','arfcn','signal_level','latitude','longitude']
+        sort_param_measure = request.GET.get('sort')
+    
+        if sort_param_measure is None or sort_param_measure.lstrip('-') not in allowed_sort_fields_measure :
+            sort_param_measure = '-time'
+
         # ---------- Cell Measurements ----------
-        cm_queryset = CellMeasurement.objects.all().order_by('-time')
+        cm_queryset = CellMeasurement.objects.all().order_by(sort_param_measure)
         cm_filtered = CellMeasurementFilter(request.GET, queryset=cm_queryset).qs
         cm_paginator = StandardResultsSetPagination()
         cm_paginated = cm_paginator.paginate_queryset(cm_filtered, request)
         cm_serializer = CellMeasurementSerializer(cm_paginated, many=True)
 
         # ---------- Test Results ----------
-        tr_queryset = TestResult.objects.all().order_by('-time')
+        tr_queryset = TestResult.objects.all().order_by(sort_param_test)
         tr_filtered = TestResultFilter(request.GET, queryset=tr_queryset).qs
         tr_paginator = StandardResultsSetPagination()
         tr_paginated = tr_paginator.paginate_queryset(tr_filtered, request)
