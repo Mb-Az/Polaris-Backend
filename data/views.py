@@ -95,8 +95,8 @@ class CellMeasurementListView(APIView):
 # -------- GET Test Results --------
 class TestResultListView(APIView):
     serializer_class = TestResultSerializer
-    # permission_classes = [AllowAny]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
+    # permission_classes = [IsAuthenticated]
 
     filter_backends = [DjangoFilterBackend]
     filterset_class = CellMeasurementFilter
