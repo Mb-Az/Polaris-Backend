@@ -14,10 +14,11 @@ class CellMeasurement(models.Model):
     rscp = models.IntegerField(null=True, blank=True)
     ec_no = models.IntegerField(null=True, blank=True)
     rx_lev = models.IntegerField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    time = models.DateTimeField()
+    # created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-time']
 
     def __str__(self):
         return f"{self.carrier} - {self.technology}"
@@ -30,10 +31,11 @@ class TestResult(models.Model):
     web = models.BigIntegerField(null=True, blank=True)        # ms
     dns = models.BigIntegerField(null=True, blank=True)        # ms
     sms = models.BigIntegerField(null=True, blank=True)        # ms
-    created_at = models.DateTimeField(auto_now_add=True)
+    time = models.DateTimeField()
+    # created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-time']
 
     def __str__(self):
         return f"TestResult {self.id}"

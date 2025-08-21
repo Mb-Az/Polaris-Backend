@@ -6,6 +6,8 @@ from rest_framework.pagination import PageNumberPagination
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import CellMeasurementFilter, TestResultFilter
 from .models import CellMeasurement, TestResult
 from .serializers import (
     CellMeasurementSerializer,
@@ -64,20 +66,28 @@ class CellMeasurementListView(APIView):
     serializer_class = CellMeasurementSerializer
     permission_classes = [AllowAny]
     # permission_classes = [IsAuthenticated]
-
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = CellMeasurementFilter
 
     @swagger_auto_schema(
-        operation_description="Get paginated cell measurements",
+        operation_description="Get paginated & filtered cell measurements",
         manual_parameters=[
             openapi.Parameter("page", openapi.IN_QUERY, description="Page number", type=openapi.TYPE_INTEGER),
             openapi.Parameter("page_size", openapi.IN_QUERY, description="Items per page", type=openapi.TYPE_INTEGER),
+            openapi.Parameter("carrier", openapi.IN_QUERY, description="Filter by carrier", type=openapi.TYPE_STRING),
+            openapi.Parameter("technology", openapi.IN_QUERY, description="Filter by technology (e.g., LTE, NR)", type=openapi.TYPE_STRING),
+            openapi.Parameter("tac", openapi.IN_QUERY, description="Filter by TAC", type=openapi.TYPE_INTEGER),
+            openapi.Parameter("plmnId", openapi.IN_QUERY, description="Filter by PLMN ID", type=openapi.TYPE_STRING),
+            openapi.Parameter("start_date", openapi.IN_QUERY, description="Start date (YYYY-MM-DD)", type=openapi.TYPE_STRING),
+            openapi.Parameter("end_date", openapi.IN_QUERY, description="End date (YYYY-MM-DD)", type=openapi.TYPE_STRING),
         ],
         responses={200: CellMeasurementSerializer(many=True)}
     )
     def get(self, request):
         queryset = CellMeasurement.objects.all().order_by('-created_at')
+        filtered_queryset = CellMeasurementFilter(request.GET, queryset=queryset).qs
         paginator = StandardResultsSetPagination()
-        paginated_queryset = paginator.paginate_queryset(queryset, request)
+        paginated_queryset = paginator.paginate_queryset(filtered_queryset, request)
         serializer = self.serializer_class(paginated_queryset, many=True)
         return paginator.get_paginated_response(serializer.data)
 
@@ -88,17 +98,28 @@ class TestResultListView(APIView):
     # permission_classes = [AllowAny]
     permission_classes = [IsAuthenticated]
 
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = CellMeasurementFilter
+
     @swagger_auto_schema(
-        operation_description="Get paginated test results",
+        operation_description="Get paginated & filtered test results",
         manual_parameters=[
             openapi.Parameter("page", openapi.IN_QUERY, description="Page number", type=openapi.TYPE_INTEGER),
             openapi.Parameter("page_size", openapi.IN_QUERY, description="Items per page", type=openapi.TYPE_INTEGER),
+            openapi.Parameter("throughput", openapi.IN_QUERY, description="Filter by throughput (KB/s)", type=openapi.TYPE_INTEGER),
+            openapi.Parameter("ping", openapi.IN_QUERY, description="Filter by ping time (ms)", type=openapi.TYPE_INTEGER),
+            openapi.Parameter("web", openapi.IN_QUERY, description="Filter by web response time (ms)", type=openapi.TYPE_INTEGER),
+            openapi.Parameter("dns", openapi.IN_QUERY, description="Filter by DNS resolution time (ms)", type=openapi.TYPE_INTEGER),
+            openapi.Parameter("sms", openapi.IN_QUERY, description="Filter by SMS time (ms)", type=openapi.TYPE_INTEGER),
+            openapi.Parameter("start_date", openapi.IN_QUERY, description="Start date (YYYY-MM-DD)", type=openapi.TYPE_STRING),
+            openapi.Parameter("end_date", openapi.IN_QUERY, description="End date (YYYY-MM-DD)", type=openapi.TYPE_STRING),
         ],
         responses={200: TestResultSerializer(many=True)}
     )
     def get(self, request):
         queryset = TestResult.objects.all().order_by('-created_at')
+        filtered_queryset = TestResultFilter(request.GET, queryset=queryset).qs
         paginator = StandardResultsSetPagination()
-        paginated_queryset = paginator.paginate_queryset(queryset, request)
+        paginated_queryset = paginator.paginate_queryset(filtered_queryset, request)
         serializer = self.serializer_class(paginated_queryset, many=True)
         return paginator.get_paginated_response(serializer.data)
