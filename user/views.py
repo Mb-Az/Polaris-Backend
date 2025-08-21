@@ -81,7 +81,7 @@ class GetDeviceID(APIView):
             if user is None:
                 return Response({'message':'You are not registered.'},status=status.HTTP_401_BAD_REQUEST)
             if user.user_type != "device":
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'message':'You are not authorized.'}, status=status.HTTP_400_BAD_REQUEST)
             
             login(request, user)
             refresh = RefreshToken.for_user(user)
