@@ -84,7 +84,7 @@ class CellMeasurementListView(APIView):
         responses={200: CellMeasurementSerializer(many=True)}
     )
     def get(self, request):
-        queryset = CellMeasurement.objects.all().order_by('-created_at')
+        queryset = CellMeasurement.objects.all().order_by('-time')
         filtered_queryset = CellMeasurementFilter(request.GET, queryset=queryset).qs
         paginator = StandardResultsSetPagination()
         paginated_queryset = paginator.paginate_queryset(filtered_queryset, request)
@@ -117,7 +117,7 @@ class TestResultListView(APIView):
         responses={200: TestResultSerializer(many=True)}
     )
     def get(self, request):
-        queryset = TestResult.objects.all().order_by('-created_at')
+        queryset = TestResult.objects.all().order_by('-time')
         filtered_queryset = TestResultFilter(request.GET, queryset=queryset).qs
         paginator = StandardResultsSetPagination()
         paginated_queryset = paginator.paginate_queryset(filtered_queryset, request)
