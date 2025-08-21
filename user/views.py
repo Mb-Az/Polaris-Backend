@@ -81,21 +81,21 @@ class GetDeviceID(APIView):
             if user is None:
                 return Response({'message':'You are not registered.'},status=status.HTTP_401_BAD_REQUEST)
             if user.user_type != "device":
-                return Response({'message':'You are not authorized.'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'message':'You are not authorized.'}, status=status.HTTP_403_BAD_REQUEST)
             
             login(request, user)
             refresh = RefreshToken.for_user(user)
             access_token = refresh.access_token
-            id = create_short_uuid4()
-            device = GetDeviceID.objects.create(
-                id = id
+            id_ = create_short_uuid4()
+            device = Device.objects.create(
+                id = id_
             )
             return Response(
                 {
                     "message": "Device recognized successful",
                     "access_token": str(access_token),
                     "refresh_token": str(refresh),
-                    "Id" : str(id)
+                    "Id" : str(id_)
                 },
                 status=status.HTTP_200_OK,
             )
