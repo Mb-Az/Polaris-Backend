@@ -1,8 +1,7 @@
 from django.urls import path
-from .views import AndroidDataUploadView, CellMeasurementListView, TestResultListView
+from .views import AndroidDataUploadView, DataListView
 
 urlpatterns = [
     path('android/upload/', AndroidDataUploadView.as_view(), name='android-upload'),
-    path('cell-measurements/', CellMeasurementListView.as_view(), name='cell-measurements'),
-    path('test-results/', TestResultListView.as_view(), name='test-results'),
+    path('measurements/', DataListView.as_view(), name='data-fetch'),
 ]
