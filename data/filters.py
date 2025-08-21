@@ -8,7 +8,7 @@ class CellMeasurementFilter(django_filters.FilterSet):
     class Meta:
         model = CellMeasurement
         fields = [
-            "user",
+            "deviceId",
             "carrier",
             "technology",
             "tac",
@@ -32,7 +32,7 @@ class TestResultFilter(django_filters.FilterSet):
     class Meta:
         model = TestResult
         fields = [
-            "user",
+            "deviceId",
             "throughput",
             "ping",
             "web",

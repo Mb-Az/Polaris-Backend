@@ -12,6 +12,8 @@ urlpatterns = [
     path("login/", LoginView.as_view(), name="login"),
     path("signup/", RegisterView.as_view(), name="signup"),
     path("check/", CheckAuthView.as_view(), name="check"),
+    path("getId/", GetDeviceID.as_view(), name="getId"),
+
 
 
 ]

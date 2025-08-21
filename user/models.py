@@ -17,12 +17,17 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True)
-    full_name = models.CharField(max_length=255)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)  # Needed for admin access
-    date_joined = models.DateTimeField(auto_now_add=True)
+    USER_TYPE_CHOICES = (
+        ("regular", "Regular User"),
+        ("device", "Mobile Device"),
+    )
 
+    email = models.EmailField(unique=True, null=True, blank=True)
+    full_name = models.CharField(max_length=255, blank=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now_add=True)
+    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default="regular")
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
@@ -30,3 +35,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+class Device(models.Model):
+    id = models.CharField(max_length=20, blank=True,primary_key=True)

@@ -1,9 +1,9 @@
 from django.db import models
-from user.models import CustomUser
+from user.models import Device
 
 class CellMeasurement(models.Model):
     # user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="cell_measurements")
-    user = models.IntegerField(null=True, blank=True)
+    deviceId = models.ForeignKey(Device,null=True, blank=True, on_delete=models.SET_NULL)
     latitude = models.FloatField()
     longitude = models.FloatField()
     signal_level = models.IntegerField(null=True, blank=True)
@@ -28,7 +28,7 @@ class CellMeasurement(models.Model):
 
 
 class TestResult(models.Model):
-    user = models.IntegerField(null=True, blank=True)
+    deviceId = models.ForeignKey(Device,null=True, blank=True,on_delete=models.SET_NULL)
     latitude = models.FloatField()
     longitude = models.FloatField()
     throughput = models.BigIntegerField(null=True, blank=True)  # KB/s

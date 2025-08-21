@@ -11,8 +11,9 @@ from rest_framework.permissions import IsAuthenticated,AllowAny
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from user.serializers import *
+from user.models import *
 from rest_framework.exceptions import ParseError
-
+from .utils import create_short_uuid4 
 class LoginView(APIView):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
@@ -67,3 +68,36 @@ class CheckAuthView(APIView):
     def get(self, request):
         user = request.user
         return Response({"message":f"User logged in {user.email}"})
+class GetDeviceID(APIView):
+    serializer_class = LoginSerializer
+    permission_classes = [AllowAny]
+    def post(self,request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            password = serializer.validated_data['password']
+            email = serializer.validated_data['email']
+        
+            user = authenticate(request, email=email, password=password)
+            if user is None:
+                return Response({'message':'You are not registered.'},status=status.HTTP_401_BAD_REQUEST)
+            if user.user_type != "device":
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+            login(request, user)
+            refresh = RefreshToken.for_user(user)
+            access_token = refresh.access_token
+            id = create_short_uuid4()
+            device = GetDeviceID.objects.create(
+                id = id
+            )
+            return Response(
+                {
+                    "message": "Device recognized successful",
+                    "access_token": str(access_token),
+                    "refresh_token": str(refresh),
+                    "Id" : str(id)
+                },
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
