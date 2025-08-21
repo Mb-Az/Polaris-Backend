@@ -14,7 +14,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1','polaris-back.liara.run','"http://localhost:5173"']
+ALLOWED_HOSTS = ['127.0.0.1','polaris-back.liara.run']
 
 
 # Application definition
@@ -30,12 +30,15 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "drf_spectacular",
     'django_filters',
+    'corsheaders',
     'user',
     'data',
     'mobile_config'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -109,7 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
