@@ -28,8 +28,8 @@ class StandardResultsSetPagination(PageNumberPagination):
 # -------- Combined POST API for Android --------
 class AndroidDataUploadView(APIView):
     serializer_class = CombinedDataSerializer
-    # permission_classes = [IsAuthenticated]
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
+    # permission_classes = [AllowAny]
 
     @swagger_auto_schema(
         operation_description="Upload cell measurements and test results together",
@@ -74,7 +74,7 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 # -------- Combined GET API --------
 class DataListView(APIView):
-    permission_classes = [AllowAny]  # Or IsAuthenticated
+    permission_classes = [IsAuthenticated]  # Or IsAuthenticated
     filter_backends = [DjangoFilterBackend]
 
     @swagger_auto_schema(
