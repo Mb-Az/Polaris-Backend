@@ -2,13 +2,13 @@ import django_filters
 from .models import CellMeasurement, TestResult
 
 class CellMeasurementFilter(django_filters.FilterSet):
-    # Filtering by date ranges
-    start_date = django_filters.DateTimeFilter(field_name="time", lookup_expr="gte")
-    end_date = django_filters.DateTimeFilter(field_name="time", lookup_expr="lte")
+    since = django_filters.DateTimeFilter(field_name="time", lookup_expr="gte")
+    till = django_filters.DateTimeFilter(field_name="time", lookup_expr="lte")
 
     class Meta:
         model = CellMeasurement
         fields = [
+            "user",
             "carrier",
             "technology",
             "tac",
@@ -20,18 +20,24 @@ class CellMeasurementFilter(django_filters.FilterSet):
             "rscp",
             "ec_no",
             "rx_lev",
+            "since",  # this allows query param ?since=...
+            "till",   # this allows query param ?till=...
         ]
 
+
 class TestResultFilter(django_filters.FilterSet):
-    start_date = django_filters.DateTimeFilter(field_name="time", lookup_expr="gte")
-    end_date = django_filters.DateTimeFilter(field_name="time", lookup_expr="lte")
+    since = django_filters.DateTimeFilter(field_name="time", lookup_expr="gte")
+    till = django_filters.DateTimeFilter(field_name="time", lookup_expr="lte")
 
     class Meta:
         model = TestResult
         fields = [
+            "user",
             "throughput",
             "ping",
             "web",
             "dns",
             "sms",
+            "since",
+            "till",
         ]

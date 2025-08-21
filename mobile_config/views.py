@@ -8,7 +8,7 @@ from drf_yasg import openapi
 
 class SetConfigurationView(APIView):
     serializer_class = ConfigurationSerializer
-    permission_classes = [permissions.IsAdminUser]  # Only admins can update
+    permission_classes = [permissions.IsAuthenticated]  # Only admins can update
 
     @swagger_auto_schema(
         request_body=ConfigurationSerializer,
