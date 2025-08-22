@@ -68,9 +68,16 @@ class AndroidDataUploadView(APIView):
 
 # Pagination class
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 10
+    page_size = 20
     page_size_query_param = 'page_size'
     max_page_size = 100
+
+class CMPagination(StandardResultsSetPagination):
+    page_query_param = 'cm_page'
+
+class TRPagination(StandardResultsSetPagination):
+    page_query_param = 'tr_page'
+
 
 # -------- Combined GET API --------
 class DataListView(APIView):
@@ -115,14 +122,14 @@ class DataListView(APIView):
         # ---------- Cell Measurements ----------
         cm_queryset = CellMeasurement.objects.all().order_by(sort_param_measure)
         cm_filtered = CellMeasurementFilter(request.GET, queryset=cm_queryset).qs
-        cm_paginator = StandardResultsSetPagination()
+        cm_paginator = CMPagination()
         cm_paginated = cm_paginator.paginate_queryset(cm_filtered, request)
         cm_serializer = CellMeasurementSerializer(cm_paginated, many=True)
 
         # ---------- Test Results ----------
         tr_queryset = TestResult.objects.all().order_by(sort_param_test)
         tr_filtered = TestResultFilter(request.GET, queryset=tr_queryset).qs
-        tr_paginator = StandardResultsSetPagination()
+        tr_paginator = TRPagination()
         tr_paginated = tr_paginator.paginate_queryset(tr_filtered, request)
         tr_serializer = TestResultSerializer(tr_paginated, many=True)
 
