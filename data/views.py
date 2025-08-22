@@ -18,11 +18,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .filters import CellMeasurementFilter, TestResultFilter
 
 
-# Pagination class
-class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 100
+# # Pagination class
+# class StandardResultsSetPagination(PageNumberPagination):
+#     page_size = 10
+#     page_size_query_param = 'page_size'
+#     max_page_size = 1000
 
 
 # -------- Combined POST API for Android --------
@@ -70,7 +70,7 @@ class AndroidDataUploadView(APIView):
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 20
     page_size_query_param = 'page_size'
-    max_page_size = 100
+    max_page_size = 10000
 
 class CMPagination(StandardResultsSetPagination):
     page_query_param = 'cm_page'
