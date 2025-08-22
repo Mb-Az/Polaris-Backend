@@ -4,10 +4,10 @@ from user.models import CustomUser
 
 class Configuration(models.Model):
     # Timing-related configs (in minutes)
-    polling_interval = models.BigIntegerField(default=5)             # minutes
-    measurement_interval = models.BigIntegerField(default=5)         # seconds or minutes
-    server_sync_interval = models.BigIntegerField(default=15)        # minutes
-    test_interval = models.BigIntegerField(default=30)               # minutes
+    polling_interval = models.FloatField(default=5)             # minutes
+    measurement_interval = models.FloatField(default=5)         # seconds or minutes
+    server_sync_interval = models.FloatField(default=15)        # minutes
+    test_interval = models.FloatField(default=30)               # minutes
 
     # URLs and phone numbers
     ping_url = models.URLField(default="https://google.com")

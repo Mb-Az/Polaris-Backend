@@ -32,10 +32,10 @@ class TestResult(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     throughput = models.BigIntegerField(null=True, blank=True)  # KB/s
-    ping = models.FloatField(null=True, blank=True)       # ms
-    web = models.FloatField(null=True, blank=True)        # ms
-    dns = models.FloatField(null=True, blank=True)        # ms
-    sms = models.FloatField(null=True, blank=True)        # ms
+    ping = models.BigIntegerField(null=True, blank=True)       # ms
+    web = models.BigIntegerField(null=True, blank=True)        # ms
+    dns = models.BigIntegerField(null=True, blank=True)        # ms
+    sms = models.BigIntegerField(null=True, blank=True)        # ms
     time = models.DateTimeField()
     # created_at = models.DateTimeField(auto_now_add=True)
 
