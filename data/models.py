@@ -6,7 +6,7 @@ class CellMeasurement(models.Model):
     deviceId = models.ForeignKey(Device,null=True, blank=True, on_delete=models.SET_NULL)
     latitude = models.FloatField()
     longitude = models.FloatField()
-    signal_level = models.IntegerField(null=True, blank=True)
+    signal_level = models.FloatField(null=True, blank=True)
     carrier = models.CharField(max_length=100, null=True, blank=True)
     technology = models.CharField(max_length=50, null=True, blank=True)
     tac = models.IntegerField(null=True, blank=True)
@@ -32,10 +32,10 @@ class TestResult(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     throughput = models.BigIntegerField(null=True, blank=True)  # KB/s
-    ping = models.BigIntegerField(null=True, blank=True)       # ms
-    web = models.BigIntegerField(null=True, blank=True)        # ms
-    dns = models.BigIntegerField(null=True, blank=True)        # ms
-    sms = models.BigIntegerField(null=True, blank=True)        # ms
+    ping = models.FloatField(null=True, blank=True)       # ms
+    web = models.FloatField(null=True, blank=True)        # ms
+    dns = models.FloatField(null=True, blank=True)        # ms
+    sms = models.FloatField(null=True, blank=True)        # ms
     time = models.DateTimeField()
     # created_at = models.DateTimeField(auto_now_add=True)
 
